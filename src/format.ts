@@ -8,9 +8,9 @@ import { getEdits } from './diffUtils';
 export class Formatter {
   private format(data: string): Promise<string> {
     return new Promise<string>((resolve, reject) => {
-      const bin = 'jsonnet';
+      const bin = 'jsonnetfmt';
       // This uses the Google internal config per https://github.com/google/jsonnet/issues/359.
-      const args = ['fmt', '--indent', '2', '--max-blank-lines', '2', '--sort-imports', '--string-style', 's', '--comment-style', 's', '-'];
+      const args = ['--indent', '2', '--max-blank-lines', '2', '--sort-imports', '--string-style', 's', '--comment-style', 's', '-'];
       let p = cp.spawn(bin, args);
       let stdout_: Buffer[] = [];
       let stderr_: Buffer[] = [];
