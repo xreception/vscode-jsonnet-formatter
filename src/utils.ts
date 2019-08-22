@@ -2,10 +2,8 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import * as os from 'os';
 
 let binPathCache: { [bin: string]: string; } = {};
-let runtimePathCache: string = '';
 
 export function getBinPathFromEnvVar(toolName: string, envVarValue: string, appendBinToPath: boolean): string {
   toolName = correctBinname(toolName);
