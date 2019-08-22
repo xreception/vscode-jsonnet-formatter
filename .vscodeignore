@@ -1,7 +1,8 @@
-.vscode/**
-out/test/**
-test/**
-src/**
-**/*.map
 .gitignore
+.vscode/**
+**/*.map
+out/test/**
+src/**
+test/**
 tsconfig.json
+yarn.lock

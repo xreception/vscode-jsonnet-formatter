@@ -2,7 +2,7 @@
   "name": "jsonnet-formatter",
   "displayName": "jsonnet Formatter",
   "description": "Provide jsonnet vscode format support.",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "publisher": "xrc-inc",
   "repository": {
     "type": "git",
@@ -14,10 +14,10 @@
   },
   "homepage": "https://github.com/xreception/vscode-jsonnet-formatter#readme",
   "engines": {
-    "vscode": "^1.18.0"
+    "vscode": "^1.37.0"
   },
   "categories": [
-    "Languages"
+    "Programming Languages"
   ],
   "activationEvents": [
     "onLanguage:jsonnet"
@@ -38,14 +38,14 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "rm -rf ./out; npm run compile",
+    "vscode:prepublish": "rm -rf ./out; yarn run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "postinstall": "node ./node_modules/vscode/bin/install"
   },
   "devDependencies": {
-    "@types/node": "^8.0.51",
     "@types/diff": "^3.2.2",
+    "@types/node": "^8.0.51",
     "typescript": "^2.6",
     "vscode": "^1.1.6"
   },

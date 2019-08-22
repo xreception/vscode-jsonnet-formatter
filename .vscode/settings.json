@@ -1,0 +1,4 @@
+{
+  "npm.packageManager": "yarn",
+  "npm.autoDetect": "on"
+}
