@@ -35,7 +35,55 @@
           ".libsonnet"
         ]
       }
-    ]
+    ],
+    "configuration": {
+      "title": "jsonnet-formatter",
+      "properties": {
+        "jsonnet-formatter.indent": {
+          "type": "integer",
+          "description": "Number of spaces to indent by (0 will inherit from VS Code Formatting Options)",
+          "default": 2
+        },
+        "jsonnet-formatter.maxBlankLines": {
+          "type": "integer",
+          "description": "Max vertical spacing, 0 means no change",
+          "default": 2
+        },
+        "jsonnet-formatter.stringStyle": {
+          "type": "string",
+          "enum": ["double", "single", "leave"],
+          "description": "Enforce double, single quotes or 'leave'",
+          "default": "single"
+        },
+        "jsonnet-formatter.commentStyle": {
+          "type": "string",
+          "enum": ["hash", "slashes", "leave"],
+          "enumDescriptions": ["hash sign (#)", "slashes (//)", "leave without change"],
+          "description": "# (h), // (s), or 'leave'; never changes she-bang",
+          "default": "slashes"
+        },
+        "jsonnet-formatter.prettyFieldNames": {
+          "type": "boolean",
+          "description": "Use syntax sugar for fields and indexing",
+          "default": true
+        },
+        "jsonnet-formatter.padArrays": {
+          "type":"boolean",
+          "description": "[ 1, 2, 3 ] instead of [1, 2, 3]",
+          "default": false
+        },
+        "jsonnet-formatter.padObjects": {
+          "type":"boolean",
+          "description": "{ x: 1, y: 2 } instead of {x: 1, y: 2}",
+          "default":true
+        },
+        "jsonnet-formatter.sortImports": {
+          "type":"boolean",
+          "description": "Sorting of imports",
+          "default": true
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "rm -rf ./out; yarn run compile",

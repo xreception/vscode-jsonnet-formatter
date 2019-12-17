@@ -6,11 +6,26 @@ import { Buffer } from 'buffer';
 import { getEdits } from './diffUtils';
 
 export class Formatter {
-  private format(data: string): Promise<string> {
+  private makeFormatterFlags(options: vscode.FormattingOptions): string[] {
+    let extConfig = vscode.workspace.getConfiguration('jsonnet-formatter');
+    return [
+      '--indent', extConfig.indent == 0 ? options.tabSize : extConfig.indent,
+      '--max-blank-lines', extConfig.maxBlankLines,
+      '--string-style', extConfig.stringStyle[0],
+      '--comment-style', extConfig.commentStyle[0],
+      extConfig.prettyFieldNames ? '--pretty-field-names' : '--no-pretty-field-names',
+      extConfig.padArrays ? '--pad-arrays' : '--no-sort-imports',
+      extConfig.padObjects ? '--pad-objects' : '--no-sort-imports',
+      extConfig.sortImports ? '--sort-imports' : '--no-sort-imports',
+      '-'
+    ];
+  }
+
+  private format(data: string, options: vscode.FormattingOptions): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       const bin = 'jsonnetfmt';
       // This uses the Google internal config per https://github.com/google/jsonnet/issues/359.
-      const args = ['--indent', '2', '--max-blank-lines', '2', '--sort-imports', '--string-style', 's', '--comment-style', 's', '-'];
+      const args = this.makeFormatterFlags(options);
       let p = cp.spawn(bin, args);
       let stdout_: Buffer[] = [];
       let stderr_: Buffer[] = [];
@@ -28,9 +43,9 @@ export class Formatter {
     });
   }
 
-  public async getFormatEdits(document: vscode.TextDocument): Promise<vscode.TextEdit[]> {
+  public async getFormatEdits(document: vscode.TextDocument, options: vscode.FormattingOptions): Promise<vscode.TextEdit[]> {
     let oldCode = document.getText();
-    let newCode = await this.format(oldCode);
+    let newCode = await this.format(oldCode, options);
     let filePatch = getEdits(document.fileName, oldCode, newCode);
     return filePatch.edits.map(edit => edit.apply());
   }
@@ -42,6 +57,6 @@ export class JsonnetDocumentFormattingEditProvider implements vscode.DocumentFor
     this.formatter = new Formatter();
   }
   public provideDocumentFormattingEdits(document: vscode.TextDocument, options: vscode.FormattingOptions, token: vscode.CancellationToken): Thenable<vscode.TextEdit[]> {
-    return this.formatter.getFormatEdits(document);
+    return this.formatter.getFormatEdits(document, options);
   }
 }
